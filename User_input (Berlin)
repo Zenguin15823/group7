@@ -1,0 +1,27 @@
+# User input ( Berlin )
+user_input:
+    li $v0, 5                   # syscall for reading an integer
+    syscall
+    subi $v0, $v0, 1            # decrement the input by 1 to get correct index
+    sll $t0, $v0, 2             # multiply the index by 4 to get the correct offset in the array
+    la $t1, grid                # load the address of the grid array
+    add $t1, $t1, $t0           # add the offset to the grid address
+    lw $t2, 0($t1)              # load the value at the chosen position
+    li $t3, 32                  # load the value 32 (ASCII space)
+    bne $t2, $t3, invalid_input # if the chosen position is not empty, input is invalid
+
+    li $t4, 88                  # load the value 88 (ASCII 'X')
+    sw $t4, 0($t1)              # store the value 'X' in the chosen position
+    j end_user_input            # jump to the end of the user input section
+
+invalid_input:
+    # Output an error message and repeat the user input process
+    la $a0, invalid_input_msg
+    li $v0, 4
+    syscall
+    j user_input
+
+end_user_input:
+
+.data
+invalid_input_msg: .asciiz "\nInvalid input. Please choose an empty cell by entering the corresponding number.\n"
