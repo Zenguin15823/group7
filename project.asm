@@ -192,11 +192,12 @@ syscall
 
 gameLoop:
 
+la $a0, howtwo
+li $v0, 4
+syscall
+
 # User input ( Berlin )
 user_input:
-    la $a0, howtwo
-    li $v0, 4
-    syscall
     li $v0, 5                   # syscall for reading an integer
     syscall
     sll $t0, $v0, 2             # multiply the index by 4 to get the correct offset in the array
