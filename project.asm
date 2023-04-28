@@ -1,12 +1,10 @@
 .data
 grid: .word 32, 32, 32, 32, 32, 32, 32, 32, 32 # grid is an array of 9 words, each word representing a cell
-# see image in gitHub for diagram of cell arrangement
-# IMPORTANT: if value in a cell is 32, cell is empty. if value is 88, it is an X (player). if value is 79, it is an O (computer)
-# following the above stipulations will allow everyone's code to work together once combined
+# if value in a cell is 32, cell is empty. if value is 88, it is an X (player). if value is 79, it is an O (computer)
 
 matrix: .word 48, 49, 50, 51, 52, 53, 54, 55, 56
 bigLine: .asciiz "-+-+-\n"
-welcome: .asciiz "\nWelcome to Tic Tac Toe! Here are the rules: \nYou will make a move, and then the computer will make one, then repeat until someone gets 3 of their letter in a row!"
+welcome: .asciiz "\nWelcome to Tic Tac Toe! Here are the rules: \nYou will make a move, and then the computer will make one, then repeat until someone gets 3 of their letter in a row!\n"
 howto: .asciiz "\nAbove, the numbers corresponding to each cell are shown."
 howtwo: .asciiz "\nPlease input a number to draw an X in that square.\n"
 playagain: .asciiz "\nEnter 0 to quit, or any other number to play again.\n"
@@ -225,6 +223,23 @@ jal drawBoard
 jal checkWin # This line checks for a win/tie, and if one is found it ends the game accordingly.
 
 # Computer input ( Morgod )
+computer_input:
+
+	addi $a1, $zero, 9
+	addi $v0, $zero, 42
+	syscall				# Generates random # from 0 - 8
+	
+	
+    	sll $t0, $a0, 2              	# Correcting offset of array
+    	la $t1, grid                 	# Loads grid address to $t1
+    	add $t1, $t1, $t0            	# Adding offset ($t0) to the grid address ($t1)
+    	
+    	lw $t2, 0($t1)               	# Loads the element of the random number in the array
+    	li $t3, 32                   	# Loads " " in $t3
+    	bne $t2, $t3, computer_input 	# Compares the chosen element to the space, if a space, continue, if not, generate a new number
+
+	li $t4, 79                  	# Loads "O" in $t4 
+	sw $t4, 0($t1)              	# Stores "O" in chosen element
 
 li $s0, 1 # These two lines will call the drawBoard function so the player can see the X's and O's
 jal drawBoard 
@@ -241,10 +256,6 @@ syscall
 li $v0, 5
 syscall
 bnez $v0, main
-
-# When you are done with your part, commit it to the gitHub as its own branch and I will put it into the master branch. 
-# If something is wrong with it I will try to debug but might need your help ( Zac )
-# If you have any questions or anything just msg the discord chat
 
 exit:
 li $v0, 10
