@@ -1,0 +1,56 @@
+Title: User Manual - MIPS Assembly Language Based Tic-Tac-Toe Game
+
+1.	Introduction
+
+This user manual provides step-by-step instructions on how to run and use the Tic-Tac-Toe Game, a MIPS assembly language-based program. The game challenges users to guess a randomly generated number within a specific range.
+
+2.	Prerequisites
+To run the Tic-Tac-Toe Game, ensure that you have the following:
+•	A MIPS simulator, such as MARS, installed on your computer.
+•	The MIPS assembly language modules for the Tic-Tac-Toe Game.
+
+3.	Loading the Program
+Follow these steps to load the Tic-Tac-Toe Game into the MIPS simulator:
+a.	Open the MIPS simulator (e.g., MARS). 
+b.	b. Click on "File" and then "Open" to navigate to the folder containing the game's MIPS assembly language modules. 
+c.	c. Select the main .asm file and click "Open" to load the program.
+
+4.	Assembling and Running the Program
+Once the program is loaded, follow these steps to assemble and run the Tic-Tac-Toe Game:
+a.	Click on "Assemble" or press F3 to assemble the program. 
+b.	b. If the assembly process is successful, click on "Run" or press F5 to start the game.
+
+5.	Getting Started
+To start the game, simply run the program. You will be greeted with a welcome message explaining the game rules and the initial game board. The game board will look like this:
+
+1|2|3
+-+-+-
+4|5|6
+-+-+-
+7|8|9
+
+The numbers 1-9 represent the available cells to place your 'X' mark.
+
+6.	Playing the Game
+To make a move, input a number between 1 and 9 corresponding to an empty cell on the game board. After you've entered your move, the computer will take its turn and place an 'O' mark on the board. The updated game board will then be displayed.
+
+Please note that you can only choose an empty cell for your move. If you try to select an occupied cell, you will receive an "Invalid input" message and will need to input a valid number for an empty cell.
+
+7.	Game Outcomes
+The game will continue until there is a winner or a tie. A winner is declared when either you or the computer have three marks in a row (horizontally, vertically, or diagonally). If all cells on the board are filled and there is no winner, the game is considered a tie.
+When the game concludes, you will see a message displaying the outcome:
+
+"Congratulations, you won!" if you won the game.
+"The computer won!" if the computer won the game.
+"The game was a tie!" if the game ended in a tie.
+Playing Again or Quitting
+
+After a game concludes, you will be given the option to play again or quit. To play again, enter any number other than 0. To quit the game, enter 0. If you choose to play again, the game board will be reset, and you can start a new game.
+
+8.	Troubleshooting
+If you encounter any issues while running the Tic-Tac-Toe Game, refer to the following troubleshooting tips:
+•	Ensure that the MIPS simulator is properly installed and configured on your computer.
+•	Verify that all the required MIPS assembly language modules are present in the same folder.
+•	Make sure that the main .asm file has been assembled successfully before attempting to run the program.
+
+For additional assistance or inquiries, please contact the project team.
