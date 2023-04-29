@@ -75,7 +75,7 @@ loopCols:
 	jr $ra # end of drawBoard function
 
 # Check for winner or tie, if no go back to gameLoop, if so go ahead ( Austin )
-# Output win/tie message ( Austin )
+# Output win/tie message ( Maulik )
 checkWin:
 	li $s0, 264 # 88 x 3 = 264. If three cells sum to this number, there are 3 X's
 	li $s1, 237 # 79 x 3 = 237. If three cells sum to this number, there are 3 O's
@@ -194,7 +194,7 @@ la $a0, howtwo
 li $v0, 4
 syscall
 
-# User input ( Berlin )
+# User input ( Manav )
 user_input:
     li $v0, 5                   # syscall for reading an integer
     syscall
