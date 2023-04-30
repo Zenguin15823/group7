@@ -1,0 +1,31 @@
+The program functions by using the following five distinct parts, each utilizing different techniques:
+
+Instructions
+
+At the beginning and end of the game, the player is given instructions on how to play, and asked if they would like to play again, respectively. This is the simplest part of the code, as syscall is simply used to print out strings that were saved in the .data section. Syscall is also used for the integer input on whether or not they would like to play again. If they choose to quit, the code will not branch back to the beginning and the program will terminate.
+The instructions also display a version of the board where the different squares are numbered as an example for the user. This utilizes a special case in the ‘drawBoard’ function, which will be explained next.
+Before the instructions are output in the code, there is a loop that runs 9 times, by decrementing a register each time and no longer branching once it hits 0, that replaces each value in the ‘grid’ array (containing the X’s and O’s) with 32, the ascii code of space. This resets the board so that it is empty at the start of the game.
+
+Drawing the board
+
+There is a function called ‘drawBoard’ that is called many times during the Tic-Tac-Toe game. Mainly it serves to show the user the current standing of the board, so they know what moves they can make, or how they can win, lose, or tie.
+	The function works by loading the ‘grid’ array to a register. This array contains elements 0-8, each representing a square in the board. The elements are ascii values representing the characters ‘X’, ‘O’, and ‘ ‘.
+	If the drawboard function is called with a value of 0 in register $s0, then it runs in ‘example mode.’ It uses branch statements to load the register containing ‘grid’ with a different array called ‘matrix,’ that instead of the actual board, has the ascii values of the numbers 0-8. This mode is used at the beginning to show the user the correct inputs.
+	The function uses ‘loopRows’ to output three array elements separated by two vertical lines ‘|’, then it outputs a new line, then a horizontal line ‘-+-+-’, and then calls rowloop again for the next row. This repeats under loopCols until the whole board is created and ‘jr $ra’ is called to return to the function caller.
+
+User Input
+
+	User input uses syscall to read an integer. It then uses shift left by two to multiply the value by four, making it compatible with the array (which uses words that are four bytes). It loads the address of the ‘grid’ array into a register, and adds the aforementioned input to the address to get the specific square chosen by the user. If the value in this square is not 32 then it is not a blank space and therefore not a valid move, so the code branches back to the start of the user_input function after giving a message informing the user that they need to pick again.
+	If the move was valid, the code sets the array element’s value to 88, the ascii value of ‘X’. It then jumps to a label outside the user_input function.
+
+Computer Input
+
+	This function uses syscall with $v0 set to 42 and $a1 set to 9 to generate a random value between 0 and 8. It then multiplies it by four, loads the ‘grid’, and checks if the value is blank, much like user_input. If not, it branches back to the start of the function.
+	If the move is valid, it sets the array element to 79, the ascii value of ‘O’, and the computer_input function ends.
+
+Win/Tie Checking
+
+	This function is called with a function call after every move. First, it uses a loop to check each row of ‘grid’. It does this by adding the first three elements to each other, and comparing this sum to 264 (which is 88 x 3), and 237 (which is 79 x 3). If each of these are true, it branches accordingly (88 is X and 79 is O). To get each successive row, it adds 12 to the address it is checking, since each row will have an element at offset 0, 4, and 8.
+	The function continues as long as a win is not found, which would cause it to branch away. It now does the same thing as before but with the columns, this time incrementing by 4 as each column contains the offsets 0, 12, and 24. After that it checks the top left to bottom right diagonal by summing array offsets 0, 16, and 32. Finally it checks the other diagonal with offsets 8, 16, and 24.
+	The function then checks for a tie by looping through all 9 array elements. If it finds one equal to 32 (blank space), it branches off and the function returns. If none of the nine squares are blank, it is a tie, so it branches to tie game.
+	The three labels ‘playerWin,’ ‘computerWin,’ and ‘tieGame’ each output their own message, and then jump to the ‘play again’ message at the end of the code.
